@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/api/*"
+  to = "http://megamax.api.rochadev.site:8080/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
