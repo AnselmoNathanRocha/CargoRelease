@@ -1,9 +1,9 @@
 import { Table, TableHeader } from "@/components/Table";
 import { SquareCheckBig, SquareIcon, Clock, User, Calendar, Pencil, Trash2, Ellipsis } from "lucide-react";
 import { HomeProps, useHome } from "./use-home";
-import { PageHeader } from "@/components/PageHeader";
 import { cn } from "@/utils/cn";
 import { Dropdown } from "@/components/Dropdown";
+import { HeaderPage } from "@/components/HeaderPage";
 
 export function Home() {
   const { dataMock, loading, paginationProps, handleAdd, handleSearch } = useHome();
@@ -102,7 +102,7 @@ export function Home() {
 
   return (
     <div>
-      <PageHeader onSearch={handleSearch} onAdd={handleAdd} />
+      <HeaderPage onSearch={handleSearch} onAdd={handleAdd} />
 
       <div className="mx-4 border border-gray-400 rounded-2xl shadow-md">
         <div className="px-6 py-3 flex justify-between items-center border-b border-gray-400 bg-blue-100 rounded-t-2xl">

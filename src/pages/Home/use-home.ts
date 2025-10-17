@@ -1,3 +1,5 @@
+import { useDebounce } from "@/hooks/use-debounce";
+import { FilterData } from "@/models/filter";
 import { Page, PageWithoutContent } from "@/models/pagination"
 import { useState } from "react";
 
@@ -105,15 +107,19 @@ export function useHome() {
     totalPages: 1,
   }
 
+  const handleSearch = (data: FilterData) => {
+    console.log("Search: ", data);
+  };
+  
+  const handleSearchDebounced = useDebounce(handleSearch, 1000)
+
   return {
     dataMock,
     loading,
     paginationProps: dataMock as PageWithoutContent | undefined,
-    handleSearch: (term: string) => {
-      console.log("Search term:", term);
-    },
+    handleSearch: handleSearchDebounced,
     handleAdd: () => {
-      console.log("Add new record");  
+      console.log("Add new record");
     }
   }
 }

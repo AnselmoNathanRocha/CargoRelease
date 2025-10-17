@@ -30,7 +30,7 @@ export function HeaderPage({ onSearch, onAdd }: HeaderPageProps) {
               name="term"
               placeholder="Pesquisar lote, produto..."
               leftIcon={<SearchIcon size={18} className="text-white"/>}
-              rightIcon={
+              rightIcon={(form.watch("term")?.length ?? 0) >= 1 &&
                 <Button
                   onClick={() => form.reset()}
                   variant="ghost"
