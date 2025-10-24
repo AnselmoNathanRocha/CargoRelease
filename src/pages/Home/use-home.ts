@@ -1,29 +1,15 @@
 import { useDebounce } from "@/hooks/use-debounce";
 import { FilterData } from "@/models/filter";
 import { Page, PageWithoutContent } from "@/models/pagination"
-import { useState } from "react";
-
-export interface HomeProps {
-  id: string;
-  date: string;
-  productDescription: string;
-  productCode: string;
-  opNumber: number;
-  batch: string
-  coa: boolean;
-  viscosity: number | null;
-  hydrogenPotential: number;
-  density: number;
-  active: number | null;
-  hours: string;
-  responsible: string;
-  notes?: string;
-}
+import { Register } from "@/models/register";
+import { useRef, useState } from "react";
+import { RegsiterModalRef } from "./RegisterModal/use-register-modal";
 
 export function useHome() {
   const [loading] = useState<boolean>(false);
+  const registerModalRef = useRef<RegsiterModalRef>(null);
 
-  const dataMock: Page<HomeProps> = {
+  const dataMock: Page<Register> = {
     content: [
       {
         id: "1",
@@ -38,7 +24,7 @@ export function useHome() {
         density: 1.02,
         active: null,
         hours: "08:30",
-        responsible: "Marcos Silva",
+        responsibleId: "Marcos Silva",
       },
       {
         id: "2",
@@ -53,7 +39,7 @@ export function useHome() {
         density: 0.98,
         active: 2.3,
         hours: "09:10",
-        responsible: "Ana Pereira",
+        responsibleId: "Ana Pereira",
       },
       {
         id: "3",
@@ -68,7 +54,7 @@ export function useHome() {
         density: 1.01,
         active: null,
         hours: "10:00",
-        responsible: "Bruno Costa",
+        responsibleId: "Bruno Costa",
       },
       {
         id: "4",
@@ -83,7 +69,7 @@ export function useHome() {
         density: 0.95,
         active: null,
         hours: "11:15",
-        responsible: "Fernanda Lima",
+        responsibleId: "Fernanda Lima",
       },
       {
         id: "5",
@@ -98,7 +84,7 @@ export function useHome() {
         density: 1.03,
         active: 4.1,
         hours: "12:45",
-        responsible: "Ricardo Mendes",
+        responsibleId: "Ricardo Mendes",
       }
     ],
     page: 0,
@@ -118,8 +104,9 @@ export function useHome() {
     loading,
     paginationProps: dataMock as PageWithoutContent | undefined,
     handleSearch: handleSearchDebounced,
-    handleAdd: () => {
-      console.log("Add new record");
-    }
+    handleClickAdd: () => registerModalRef.current?.open(),
+    handleClickEdit: (register: Register) =>
+      registerModalRef.current?.open(register),
+    registerModalRef,
   }
 }

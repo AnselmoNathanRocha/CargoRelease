@@ -24,7 +24,7 @@ export function Dropdown({ trigger, items }: Props) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>{trigger}</DropdownMenuTrigger>
+      <DropdownMenuTrigger className="cursor-pointer hover:opacity-60 transition-all">{trigger}</DropdownMenuTrigger>
 
       <DropdownMenuContent>
         {items.map((item, index) => (

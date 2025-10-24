@@ -1,14 +1,16 @@
 import { Table, TableHeader } from "@/components/Table";
 import { SquareCheckBig, SquareIcon, Clock, User, Calendar, Pencil, Trash2, Ellipsis } from "lucide-react";
-import { HomeProps, useHome } from "./use-home";
+import { useHome } from "./use-home";
 import { cn } from "@/utils/cn";
 import { Dropdown } from "@/components/Dropdown";
 import { HeaderPage } from "@/components/HeaderPage";
+import { Register } from "@/models/register";
+import { RegisterModal } from "./RegisterModal";
 
 export function Home() {
-  const { dataMock, loading, paginationProps, handleAdd, handleSearch } = useHome();
+  const { dataMock, loading, paginationProps, handleClickAdd, handleClickEdit, handleSearch, registerModalRef } = useHome();
 
-  const tableHeader: TableHeader<HomeProps>[] = [
+  const tableHeader: TableHeader<Register>[] = [
     { 
       label: "Data", 
       property: "date",
@@ -67,11 +69,11 @@ export function Home() {
     {
       label: "Responsável",
       property: "responsible",
-      customElement({ responsible }) {
+      customElement({ responsibleId }) {
         return (
           <div className="flex items-center gap-2 text-gray-900">
             <User className="size-4 text-gray-600" />
-            <span className="font-medium">{responsible}</span>
+            <span className="font-medium">{responsibleId}</span>
           </div>
         );
       },
@@ -80,14 +82,14 @@ export function Home() {
       label: "AÇÕES",
       property: "actions",
       columnClassName: cn("w-32 text-center"),
-      customElement: (item: HomeProps) => (
+      customElement: (item: Register) => (
         <Dropdown
           trigger={<Ellipsis size={20} />}
           items={[
             {
               label: "Editar",
               icon: <Pencil />,
-              routeOrAction: () => console.log(item),
+              routeOrAction: () => handleClickEdit(item),
             },
             {
               label: "Excluir",
@@ -102,7 +104,7 @@ export function Home() {
 
   return (
     <div>
-      <HeaderPage onSearch={handleSearch} onAdd={handleAdd} />
+      <HeaderPage onSearch={handleSearch} onAdd={handleClickAdd} />
 
       <div className="mx-4 border border-gray-400 rounded-2xl shadow-md">
         <div className="px-6 py-3 flex justify-between items-center border-b border-gray-400 bg-blue-100 rounded-t-2xl">
@@ -122,6 +124,8 @@ export function Home() {
           headers={tableHeader}
         />
       </div>
+
+      <RegisterModal ref={registerModalRef} />
     </div>
   );
 }
