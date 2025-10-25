@@ -22,7 +22,7 @@ export function RegisterModal ({ ref }: Props) {
 			<div>
 				<Form.Root form={form} onSubmit={form.handleSubmit(onSubmit)}>
 					<Form.Group>
-						<Form.Field>
+						<Form.Field className="">
 							<Form.Label htmlFor="date">Data</Form.Label>
 							<Form.Input
 								name="date"
@@ -68,6 +68,7 @@ export function RegisterModal ({ ref }: Props) {
 								name="opNumber"
 								placeholder="Digite o Nº da OP"
                 inputMode="numeric"
+                mask="onlyNumbers"
 								minLength={5}
 								maxLength={5}
 							/>

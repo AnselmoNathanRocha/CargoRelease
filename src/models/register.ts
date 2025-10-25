@@ -23,7 +23,7 @@ export const registerSchema = z.object({
   productDescription: z.string().nonempty({ message: "Campo obrigatório" }),
   productCode: z.string().nonempty({ message: "Campo obrigatório" }),
   opNumber: z
-    .number({ error: "Número de OP inválido" })
+    .number()
     .refine((val) => val.toString().length == 5, { message: "OP precisa ter 5 dígitos" }),
   batch: z.string().nonempty({ message: "Campo obrigatório" }),
   viscosity: z
