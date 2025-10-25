@@ -12,7 +12,7 @@ export interface Register {
   viscosity: number | null;
   hydrogenPotential: number;
   density: number;
-  active: number | null;
+  active: string | null;
   hours: string;
   responsibleId: string;
   notes?: string;
@@ -26,7 +26,6 @@ export const registerSchema = z.object({
     .number({ error: "Número de OP inválido" })
     .refine((val) => val.toString().length == 5, { message: "OP precisa ter 5 dígitos" }),
   batch: z.string().nonempty({ message: "Campo obrigatório" }),
-  coa: z.boolean({ error: "Valor inválido" }),
   viscosity: z
     .number({ error: "Valor inválido" })
     .nullable()
@@ -34,7 +33,7 @@ export const registerSchema = z.object({
   hydrogenPotential: z.number({ error: "Valor inválido" }),
   density: z.number({ error: "Valor inválido" }),
   active: z
-    .number({ error: "Valor inválido" })
+    .string()
     .nullable()
     .optional(),
   hours: z.string().nonempty({ message: "Campo obrigatório" }),

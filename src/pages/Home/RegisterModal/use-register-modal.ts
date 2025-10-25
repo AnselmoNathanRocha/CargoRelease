@@ -4,6 +4,7 @@ import { registerService } from "@/services/register-service";
 import { toastService } from "@/services/toast-service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import dayjs from "dayjs";
 import { Ref, useImperativeHandle, useRef, useState } from "react"
 import { useForm } from "react-hook-form";
 
@@ -21,6 +22,10 @@ export function useRegisterModal ({ ref }: Props) {
 
   const form = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      date: dayjs().format("YYYY-MM-DD"),
+      hours: dayjs().format("HH:MM")
+    }
   });
 
   useImperativeHandle(ref, () => ({
@@ -29,7 +34,18 @@ export function useRegisterModal ({ ref }: Props) {
 
       registerToEdit.current = register;
 
-      form.reset(register ?? {}, { keepValues: false });
+      if (register) {
+        form.reset(register, { keepValues: false });
+      } else {
+        form.reset(
+          {
+            active: "--",
+            date: dayjs().format("YYYY-MM-DD"),
+            hours: dayjs().format("HH:mm"),
+          },
+          { keepValues: false }
+        );
+      }
     },
   }));
 

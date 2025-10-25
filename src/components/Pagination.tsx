@@ -45,7 +45,7 @@ export function Pagination({ pagination, onChangePage }: TablePaginationProps) {
         <div className="flex gap-1">
           <button
             type="button"
-            className={`flex h-8 w-8 items-center justify-center rounded-md transition-all ${isFirstPage ? "cursor-default text-gray-400" : "hover:scale-125"}`}
+            className={`cursor-pointer flex h-8 w-8 items-center justify-center rounded-md transition-all ${isFirstPage ? "cursor-default text-gray-400" : "hover:scale-125"}`}
             onClick={isFirstPage ? noOp : () => onChangePage(0)}
           >
             <ChevronsLeft size={16} />
@@ -53,7 +53,7 @@ export function Pagination({ pagination, onChangePage }: TablePaginationProps) {
 
           <button
             type="button"
-            className={`flex h-8 w-8 items-center justify-center rounded-md transition-all ${isFirstPage ? "cursor-default text-gray-400" : "hover:scale-125"}`}
+            className={`cursor-pointer flex h-8 w-8 items-center justify-center rounded-md transition-all ${isFirstPage ? "cursor-default text-gray-400" : "hover:scale-125"}`}
             onClick={isFirstPage ? noOp : () => onChangePage(actualPage - 1)}
           >
             <ChevronLeft size={16} />
@@ -66,9 +66,9 @@ export function Pagination({ pagination, onChangePage }: TablePaginationProps) {
               <button
                 type="button"
                 key={page}
-                className={`flex h-8 w-8 items-center justify-center rounded-md transition-all ${
+                className={`cursor-pointer flex h-8 w-8 items-center justify-center rounded-md transition-all ${
                   isActualPage
-                    ? "border-2 border-red-main bg-red-main font-bold text-white"
+                    ? "border-2 border-blue-700 bg-blue-700 font-bold text-white"
                     : "bg-gray-300 hover:font-bold"
                 }`}
                 onClick={isActualPage ? noOp : () => onChangePage(page)}
@@ -80,7 +80,7 @@ export function Pagination({ pagination, onChangePage }: TablePaginationProps) {
 
           <button
             type="button"
-            className={`flex h-8 w-8 items-center justify-center rounded-md transition-all ${isLastPage ? "cursor-default text-gray-400" : "hover:scale-125"}`}
+            className={`cursor-pointer flex h-8 w-8 items-center justify-center rounded-md transition-all ${isLastPage ? "cursor-default text-gray-400" : "hover:scale-125"}`}
             onClick={isLastPage ? noOp : () => onChangePage(actualPage + 1)}
           >
             <ChevronRight size={16} />
@@ -88,7 +88,7 @@ export function Pagination({ pagination, onChangePage }: TablePaginationProps) {
 
           <button
             type="button"
-            className={`flex h-8 w-8 items-center justify-center rounded-md transition-all ${isLastPage ? "cursor-default text-gray-400" : "hover:scale-125"}`}
+            className={`cursor-pointer flex h-8 w-8 items-center justify-center rounded-md transition-all ${isLastPage ? "cursor-default text-gray-400" : "hover:scale-125"}`}
             onClick={isLastPage ? noOp : () => onChangePage(totalPages - 1)}
           >
             <ChevronsRight size={16} />
