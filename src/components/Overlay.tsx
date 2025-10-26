@@ -10,7 +10,7 @@ export function Overlay({ className, ...props }: Props) {
   return (
     <div
       className={cn(
-        "absolute inset-0 z-50 grid place-content-center rounded bg-black/50",
+        "absolute inset-0 z-50 grid place-content-center rounded bg-black/30",
         className,
       )}
       {...props}

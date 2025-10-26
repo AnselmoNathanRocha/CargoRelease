@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 export interface Filter {
-  term: string;
-  page: number;
+  term?: string;
 }
 
 export const filterSchema = z.object({

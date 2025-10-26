@@ -16,8 +16,9 @@ interface Props {
   onConfirm?: () => void;
   loading?: boolean;
   title?: string;
-  confirmLabel?: string;
+  confirmButton?: React.ReactNode;
   customFooter?: React.ReactNode;
+  contentClassName?: string;
 }
 
 export function Modal({
@@ -28,12 +29,16 @@ export function Modal({
   onConfirm,
   loading,
   title,
-  confirmLabel = "Salvar",
+  confirmButton,
   customFooter,
+  contentClassName,
 }: Props) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent ref={ref}>
+      <DialogContent 
+        ref={ref} 
+        className={contentClassName}
+      >
         <DialogDescription className="sr-only">{title}</DialogDescription>
 
         <DialogTitle className="max-h-8/12 text-xl text-zinc-700">
@@ -46,8 +51,12 @@ export function Modal({
           <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row">
             {customFooter ??
               (onConfirm && (
-                <Button type="submit" onClick={onConfirm} disabled={loading}>
-                  {loading ? "Carregando..." : confirmLabel}
+                <Button 
+                  onClick={onConfirm} 
+                  isLoading={loading}
+                  disabled={loading}
+                >
+                  {confirmButton ?? "Salvar"}
                 </Button>
               ))}
           </div>

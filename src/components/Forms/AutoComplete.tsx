@@ -4,12 +4,15 @@ import { simpleSearch } from "@/utils/functions";
 import { useMemo, useState } from "react";
 import { MultiSelect, MultiSelectProps } from "../ui/multiselect";
 
-type AutoCompleteProps = Omit<MultiSelectProps, "onChange" | "selected">;
+type AutoCompleteProps = Omit<MultiSelectProps, "onChange" | "selected"> & {
+  emptyComponent?: React.ReactNode;
+};
 
 export function AutoComplete({
   name,
   options,
   onFilter,
+  emptyComponent,
   ...props
 }: AutoCompleteProps) {
   const { control } = useFormContext();
@@ -32,6 +35,7 @@ export function AutoComplete({
           options={selectOptions}
           selected={field.value}
           onChange={field.onChange}
+          emptyComponent={emptyComponent}
           onFilter={onFilter ?? setSearchTerm}
           {...props}
         />

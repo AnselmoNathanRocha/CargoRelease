@@ -256,6 +256,37 @@ function currency(event: FormEvent<HTMLInputElement> | string | number) {
   return event;
 }
 
+function fiveNumbers(event: FormEvent<HTMLInputElement> | string) {
+  function apply(value: string) {
+    const onlyDigits = value.replace(/\D/g, "");
+    return onlyDigits.slice(0, 5);
+  }
+
+  if (typeof event === "string") {
+    return apply(event);
+  }
+
+  const value = event.currentTarget.value;
+  event.currentTarget.maxLength = 5;
+  event.currentTarget.value = apply(value);
+  return event;
+}
+
+function onlyUppercase(event: FormEvent<HTMLInputElement> | string) {
+  function apply(value: string) {
+    return value.toUpperCase();
+  }
+
+  if (typeof event === "string") {
+    return apply(event);
+  }
+
+  const value = event.currentTarget.value;
+  event.currentTarget.value = apply(value);
+  return event;
+}
+
+
 export const masks = {
   cnpj,
   cpf,
@@ -269,6 +300,8 @@ export const masks = {
   capitalize,
   cep,
   currency,
+  fiveNumbers,
+  onlyUppercase,
 };
 
 export type MaskType = keyof typeof masks;

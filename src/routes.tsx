@@ -3,24 +3,34 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import { Login } from "./pages/Login";
 import { Home } from "./pages/Home";
-
-const authRoutes = createBrowserRouter([
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "*",
-    element: <Navigate to="/login" replace />,
-  },
-]);
+import { Settings } from "./pages/Settings";
+import { Responsible } from "./pages/Settings/pages/Responsible/index.tsx";
+import { ChangePassword } from "./pages/Settings/pages/ChangePassword";
+import { RecoverPassword } from "./pages/Settings/pages/RecoverPassword";
 
 const appRoutes = createBrowserRouter([
  {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/settings",
+    element: <Settings />,
+    children: [
+      {
+        path: "responsible",
+        element: <Responsible />,
+      },
+      {
+        path: "change-password",
+        element: <ChangePassword />,
+      },
+      {
+        path: "recover-password",
+        element: <RecoverPassword />,
+      },
+    ],
   },
   {
     path: "*",
@@ -29,8 +39,5 @@ const appRoutes = createBrowserRouter([
 ]);
 
 export function Routes() {
-  // const { isAuthenticated } = useAuth();
-  const isAuthenticated = true;
-
-  return <RouterProvider router={isAuthenticated ? appRoutes : authRoutes} />;
+  return <RouterProvider router={appRoutes} />;
 }

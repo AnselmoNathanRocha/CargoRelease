@@ -1,28 +1,38 @@
 import { Table, TableHeader } from "@/components/Table";
-import { SquareCheckBig, SquareIcon, Clock, User, Calendar, Pencil, Trash2, Ellipsis } from "lucide-react";
+import { SquareCheckBig, Pencil, Trash2, Ellipsis, PackageCheck } from "lucide-react";
 import { useHome } from "./use-home";
 import { cn } from "@/utils/cn";
 import { Dropdown } from "@/components/Dropdown";
 import { HeaderPage } from "@/components/HeaderPage";
 import { Register } from "@/models/register";
 import { RegisterModal } from "./RegisterModal";
+import { ConfirmRegisterExclusionModal } from "./ConfirmRegisterExclusionModal";
+import dayjs from "dayjs";
+import { ConfirmWithPasswordModal } from "@/components/ConfirmWithPasswordModal";
 
 export function Home() {
-  const { dataMock, loading, paginationProps, handleClickAdd, handleClickEdit, handleSearch, registerModalRef } = useHome();
+  const { 
+    data, 
+    updateFilter,
+    loading, 
+    paginationProps, 
+    handleClickAdd, 
+    openConfirmWithPasswordModal,
+    registerModalRef, 
+    confirmExclusionModalRef,
+    confirmWithPasswordModalRef,
+    onConfirm,
+  } = useHome();
 
   const tableHeader: TableHeader<Register>[] = [
     { 
       label: "Data", 
       property: "date",
       customElement({ date }) {
-        return (
-          <div className="flex items-center gap-2 text-gray-900">
-            <Calendar className="size-4 text-blue-400" />
-            <span className="font-medium">{date}</span>
-          </div>
-        );
+        return dayjs(date).format("DD/MM/YYYY")
       },
     },
+    { label: "Hora", property: "hours" },
     { label: "Produto", property: "productDescription" },
     { label: "Código", property: "productCode" },
     { label: "OP", property: "opNumber" },
@@ -30,13 +40,7 @@ export function Home() {
     {
       label: "COA",
       property: "coa",
-      customElement({ coa }) {
-        return coa ? (
-          <SquareCheckBig className="size-5 text-green-600" />
-        ) : (
-          <SquareIcon className="size-5 text-gray-400" />
-        );
-      },
+      customElement: () => <SquareCheckBig className="size-5 text-green-600" />,
     },
     {
       label: "Viscosidade",
@@ -54,28 +58,15 @@ export function Home() {
         return active ?? "--"
       },
     },
-    {
-      label: "Hora",
-      property: "hours",
-      customElement({ hours }) {
-        return (
-          <div className="flex items-center gap-1 text-gray-800">
-            <Clock className="size-4 text-blue-500" />
-            {hours}
-          </div>
-        );
-      },
+    { 
+      label: "Responsável", 
+      property: "responsible.name",
     },
-    {
-      label: "Responsável",
-      property: "responsible",
-      customElement({ responsibleId }) {
-        return (
-          <div className="flex items-center gap-2 text-gray-900">
-            <User className="size-4 text-gray-600" />
-            <span className="font-medium">{responsibleId}</span>
-          </div>
-        );
+    { 
+      label: "Observações", 
+      property: "notes",
+      customElement({ notes }) {
+        return notes ?? "--"
       },
     },
     {
@@ -89,12 +80,12 @@ export function Home() {
             {
               label: "Editar",
               icon: <Pencil />,
-              routeOrAction: () => handleClickEdit(item),
+              routeOrAction: () => openConfirmWithPasswordModal(item, "EDIT"),
             },
             {
               label: "Excluir",
               icon: <Trash2 />,
-              routeOrAction: () => console.log(item),
+              routeOrAction: () => openConfirmWithPasswordModal(item, "DELETE"),
             },
           ]}
         />
@@ -104,9 +95,16 @@ export function Home() {
 
   return (
     <div>
-      <HeaderPage onSearch={handleSearch} onAdd={handleClickAdd} />
+      <HeaderPage 
+        icon={PackageCheck}
+        title="Liberação de Carga"
+        description="Registro das análises de lote e acompanhamento de produção"
+        onSearch={(term) => updateFilter(term ?? "")} 
+        onAdd={handleClickAdd}
+        showSettings
+      />
 
-      <div className="mx-4 border border-gray-400 rounded-2xl shadow-md">
+      <div className="mx-4 border border-gray-400 rounded-2xl shadow-md mt-4">
         <div className="px-6 py-3 flex justify-between items-center border-b border-gray-400 bg-blue-100 rounded-t-2xl">
           <h2 className="text-lg font-semibold text-blue-700 tracking-wide">
             RQ .210 LIBERAÇÃO DE CARGA
@@ -117,15 +115,21 @@ export function Home() {
         </div>
 
         <Table
-          data={dataMock.content}
+          data={data}
           pagination={paginationProps}
-          onChangePage={(page) => console.log(page)}
+          onChangePage={(page) => updateFilter({ page })}
           loading={loading}
           headers={tableHeader}
         />
       </div>
 
       <RegisterModal ref={registerModalRef} />
+      <ConfirmRegisterExclusionModal ref={confirmExclusionModalRef} />
+
+      <ConfirmWithPasswordModal<Register>
+        ref={confirmWithPasswordModalRef}
+        onConfirm={onConfirm}
+      />
     </div>
   );
 }

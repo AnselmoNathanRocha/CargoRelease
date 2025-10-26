@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { IPageable } from "./pagination";
+import { Responsible } from "./responsible";
 
 export interface Register {
   id: string;
@@ -14,8 +15,10 @@ export interface Register {
   density: number;
   active: string | null;
   hours: string;
-  responsibleId: string;
+  responsible: Responsible;
   notes?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const registerSchema = z.object({
@@ -23,7 +26,8 @@ export const registerSchema = z.object({
   productDescription: z.string().nonempty({ message: "Campo obrigatório" }),
   productCode: z.string().nonempty({ message: "Campo obrigatório" }),
   opNumber: z
-    .number()
+      .number({ error: "Digite o número da OP" })
+    .int()
     .refine((val) => val.toString().length == 5, { message: "OP precisa ter 5 dígitos" }),
   batch: z.string().nonempty({ message: "Campo obrigatório" }),
   viscosity: z

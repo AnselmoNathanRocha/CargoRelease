@@ -50,12 +50,12 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-red-main);
+  background: #1d4ed8;
   border-radius: 50px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-red-main);
+  background: #1d4ed8;
 }
 
 .scrollbar-none::-webkit-scrollbar {

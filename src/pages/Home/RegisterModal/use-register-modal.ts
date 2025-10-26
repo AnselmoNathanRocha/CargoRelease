@@ -17,15 +17,12 @@ interface Props {
 }
 
 export function useRegisterModal ({ ref }: Props) {
+  const registerToEdit = useRef<Register | undefined>(undefined);
+  
 	const [isOpen, setIsOpen] = useState<boolean>(false);
-	const registerToEdit = useRef<Register | undefined>(undefined);
 
   const form = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      date: dayjs().format("YYYY-MM-DD"),
-      hours: dayjs().format("HH:MM")
-    }
   });
 
   useImperativeHandle(ref, () => ({
@@ -35,13 +32,16 @@ export function useRegisterModal ({ ref }: Props) {
       registerToEdit.current = register;
 
       if (register) {
-        form.reset(register, { keepValues: false });
+        form.reset({
+          ...register,
+          responsibleId: register.responsible.id,
+        }, { keepValues: false });
       } else {
         form.reset(
           {
-            active: "--",
             date: dayjs().format("YYYY-MM-DD"),
             hours: dayjs().format("HH:mm"),
+            active: "--",
           },
           { keepValues: false }
         );
@@ -58,7 +58,7 @@ export function useRegisterModal ({ ref }: Props) {
         : registerService.create(data),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["register"],
+        queryKey: ["registers"],
       });
 
       toastService.success(

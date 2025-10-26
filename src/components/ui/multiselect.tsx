@@ -32,6 +32,7 @@ export interface MultiSelectProps {
   multiple?: boolean;
   onFilter?: (searchTerm: string) => void;
   filterDebounceTime?: number;
+  emptyComponent?: React.ReactNode;
 }
 
 export function MultiSelect({
@@ -46,6 +47,7 @@ export function MultiSelect({
   multiple = false,
   onFilter,
   filterDebounceTime = 500,
+  emptyComponent,
 }: MultiSelectProps) {
   const [open, setOpen] = useState(false);
 
@@ -132,14 +134,16 @@ export function MultiSelect({
             )}
 
             <CommandList>
-              <CommandEmpty>Nenhum resultado encontrado</CommandEmpty>
+              <CommandEmpty>
+                {emptyComponent ?? "Nenhum resultado encontrado"}
+              </CommandEmpty>
               <CommandGroup>
                 {options.map(({ id, name }) => (
                   <CommandItem
                     key={id}
                     value={name}
                     onSelect={() => handleSelect(id)}
-                    className="text-sm data-[selected=true]:bg-red-main/15"
+                    className="text-sm data-[selected=true]:bg-blue-50"
                   >
                     {name}
 

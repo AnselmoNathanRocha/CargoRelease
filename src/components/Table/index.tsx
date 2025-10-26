@@ -42,7 +42,9 @@ export function Table<T extends Identifiable>({
 
   if (!pagination?.totalElements) {
     return loading ? (
-      <Loader />
+      <Overlay>
+        <Loader className="size-12 text-blue-700"/>
+      </Overlay>
     ) : (
       (emptyComponent ?? (
         <p className="flex flex-col items-center justify-center gap-2 py-16 text-center text-lg text-gray-500">
@@ -100,8 +102,8 @@ export function Table<T extends Identifiable>({
         </table>
 
         {loading && (
-          <Overlay className="sticky top-0 left-0 z-50 h-full w-full transform rounded-md">
-            <Loader />
+          <Overlay>
+            <Loader className="size-12 text-blue-700"/>
           </Overlay>
         )}
       </div>

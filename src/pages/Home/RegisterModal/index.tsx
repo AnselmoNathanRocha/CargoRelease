@@ -2,27 +2,45 @@ import { Modal } from "@/components/Modal";
 import { RegsiterModalRef, useRegisterModal } from "./use-register-modal";
 import { Ref } from "react";
 import { Form } from "@/components/Forms";
+import { ResponsibleFormField } from "@/components/Forms/Fields/ResponsibleFormField";
+import { PlusIcon, SaveIcon } from "lucide-react";
 
 interface Props {
   ref: Ref<RegsiterModalRef>;
 }
 
 export function RegisterModal ({ ref }: Props) {
-	const { form, onSubmit, isOpen, onCancel, isLoading, } = useRegisterModal({ ref });
+	const { 
+		form, 
+		onSubmit, 
+		isOpen, 
+		onCancel, 
+		isLoading, 
+		isUpdate, 
+	} = useRegisterModal({ ref });
 	
 	return (
 		<Modal
 			title="Novo registro"
 			isOpen={isOpen}
-      confirmLabel="Criar registro"
+      confirmButton={isUpdate ? 
+				<>
+					<SaveIcon size={18} />
+					Salvar
+				</> : 
+				<>
+					<PlusIcon size={18} />
+					Criar registro
+				</>
+			}
       onConfirm={form.handleSubmit(onSubmit)}
 			onClose={onCancel}
 			loading={isLoading}
 		>
 			<div>
-				<Form.Root form={form} onSubmit={form.handleSubmit(onSubmit)}>
+				<Form.Root form={form} onSubmit={form.handleSubmit(onSubmit, (err) => console.log(err))}>
 					<Form.Group>
-						<Form.Field className="">
+						<Form.Field className="sm:max-w-36 max-w-full">
 							<Form.Label htmlFor="date">Data</Form.Label>
 							<Form.Input
 								name="date"
@@ -32,7 +50,7 @@ export function RegisterModal ({ ref }: Props) {
               <Form.ErrorMessage field="date" />
 						</Form.Field>
 
-						<Form.Field>
+						<Form.Field className="sm:max-w-26 max-w-full">
 							<Form.Label htmlFor="hours">Horas</Form.Label>
 							<Form.Input
 								name="hours"
@@ -47,6 +65,8 @@ export function RegisterModal ({ ref }: Props) {
 							<Form.Input
 								name="productDescription"
 								placeholder="Digite a descrição do produto"
+								mask="onlyUppercase"
+								autoFocus
 							/>
               <Form.ErrorMessage field="productDescription" />
 						</Form.Field>
@@ -65,12 +85,10 @@ export function RegisterModal ({ ref }: Props) {
 						<Form.Field>
 							<Form.Label htmlFor="opNumber">OP</Form.Label>
 							<Form.Input
+								type="number"
 								name="opNumber"
 								placeholder="Digite o Nº da OP"
-                inputMode="numeric"
-                mask="onlyNumbers"
-								minLength={5}
-								maxLength={5}
+                mask="fiveNumbers"
 							/>
               <Form.ErrorMessage field="opNumber" />
 						</Form.Field>
@@ -89,9 +107,8 @@ export function RegisterModal ({ ref }: Props) {
 						<Form.Field>
 							<Form.Label htmlFor="viscosity">Viscosidade</Form.Label>
 							<Form.Input
+								type="number"
 								name="viscosity"
-								inputMode="decimal"
-                mask="onlyNumbersAndComma"
 								placeholder="Digite o valor da viscosidade"
 							/>
               <Form.ErrorMessage field="viscosity" />
@@ -100,9 +117,8 @@ export function RegisterModal ({ ref }: Props) {
 						<Form.Field>
 							<Form.Label htmlFor="hydrogenPotential">PH</Form.Label>
 							<Form.Input
+								type="number"
 								name="hydrogenPotential"
-								inputMode="decimal"
-                mask="onlyNumbersAndComma"
 								placeholder="Digite o valor da viscosidade"
 							/>
               <Form.ErrorMessage field="hydrogenPotential" />
@@ -111,9 +127,8 @@ export function RegisterModal ({ ref }: Props) {
 						<Form.Field>
 							<Form.Label htmlFor="density">Densidade</Form.Label>
 							<Form.Input
+                type="number"
 								name="density"
-                inputMode="decimal"
-                mask="onlyNumbersAndComma"
 								placeholder="Digite o produto"
 							/>
               <Form.ErrorMessage field="density" />
@@ -131,15 +146,7 @@ export function RegisterModal ({ ref }: Props) {
               <Form.ErrorMessage field="active" />
 						</Form.Field>
 
-						<Form.Field>
-							<Form.Label htmlFor="responsibleId">Responsável</Form.Label>
-							<Form.AutoComplete
-								name="responsibleId"
-								options={[]}
-								placeholder="Selecione o responsável"
-							/>
-              <Form.ErrorMessage field="responsibleId" />
-						</Form.Field>
+						<ResponsibleFormField  />
 					</Form.Group>
 
 					<Form.Field>

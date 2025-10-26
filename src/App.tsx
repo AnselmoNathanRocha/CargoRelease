@@ -6,8 +6,8 @@ import utc from "dayjs/plugin/utc";
 import "dayjs/locale/pt-br";
 
 import { Toaster } from "@/components/ui/sonner";
-import { Providers } from "@/contexts";
 import { Routes } from "@/routes";
+import { Providers } from "./contexts";
 
 dayjs.locale("pt-br");
 dayjs.extend(utc);
@@ -18,7 +18,7 @@ export function App() {
   return (
     <div className="size-full">
       <Providers>
-        <Routes />
+        <Routes />  
       </Providers>
 
       <Toaster richColors />

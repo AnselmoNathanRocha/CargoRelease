@@ -49,7 +49,7 @@ export function Button({ variant, size, className, children, isLoading, leftIcon
       disabled={isLoading}
       {...props}
     >
-      {isLoading && <LucideIcon name="loader2" size={22} className="animate-spin absolute" />}
+      {isLoading && <LucideIcon name="loader2" size={20} className="animate-spin absolute" />}
 
       <span className={cn(
         "flex justify-center items-center gap-2",
