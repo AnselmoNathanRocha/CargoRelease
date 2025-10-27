@@ -74,7 +74,7 @@ export function Input({
     <div
       data-invalid={fieldState.invalid}
       className={cn(
-        "my-0.5 flex h-10 w-full items-center gap-2 rounded-md border border-zinc-400 bg-white px-3 py-2 text-zinc-700 focus-within:ring-2 focus-within:ring-zinc-400 focus-within:ring-offset-2 data-[invalid=true]:ring-2 data-[invalid=true]:ring-red-400",
+        "relative my-0.5 flex h-10 w-full items-center gap-2 rounded-md border border-zinc-400 bg-white px-3 py-2 text-zinc-700 focus-within:ring-2 focus-within:ring-zinc-400 focus-within:ring-offset-2 data-[invalid=true]:ring-2 data-[invalid=true]:ring-red-400",
         {
           "bg-zinc-200 opacity-80": props.disabled,
           hidden: hidden,

@@ -1,11 +1,24 @@
-import { KeyRound, Mail } from "lucide-react";
+import { Forward, KeyRound, Mail, SquarePen } from "lucide-react";
 import { Button } from "@/components/Button";
 import { Form } from "@/components/Forms";
 import { SettingsSection } from "../../components/SettingsSection";
 import { useRecoverPassword } from "./use-recover-password";
+import { ConfirmWithPasswordModal } from "@/components/ConfirmWithPasswordModal";
 
 export function RecoverPassword() {
-  const { emailForm, onUpdateEmail, passwordForm, onRecoverPassword } =
+  const { 
+    emailForm, 
+    onUpdateEmail, 
+    isUpdatingEmail, 
+    passwordForm, 
+    onRecoverPassword, 
+    disabled, 
+    onEnable, 
+    isGeneratingCode, 
+    generateCode,
+    confirmWithPasswordModalRef,
+    handleUnlock,
+  } =
     useRecoverPassword();
 
   return (
@@ -25,14 +38,36 @@ export function RecoverPassword() {
               <Form.Input
                 name="email"
                 placeholder="Digite o e-mail de recuperação"
+                disabled={disabled}
+                rightIcon={disabled && (
+                  <Button
+                    type="button"
+                    onClick={handleUnlock}
+                    variant="ghost"
+                    className="px-0"
+                  >
+                    <SquarePen size={20} strokeWidth={3} className="text-blue-800"/>
+                  </Button>
+                )}
               />
               <Form.ErrorMessage field="email" />
             </Form.Field>
 
-            <Button>
-              <Mail className="size-5" />
-              Alterar E-mail
-            </Button>
+            {disabled ? (
+              <Button
+                type="button"
+                onClick={generateCode} 
+                isLoading={isGeneratingCode}
+              >
+                <Forward className="size-5" />
+                Enviar código
+              </Button>
+            ) : (
+              <Button isLoading={isUpdatingEmail}>
+                <Mail className="size-5" />
+                Alterar E-mail
+              </Button>
+            )}
           </div>
         </Form.Root>
       </SettingsSection>
@@ -80,6 +115,11 @@ export function RecoverPassword() {
           </div>
         </Form.Root>
       </SettingsSection>
+
+      <ConfirmWithPasswordModal
+        ref={confirmWithPasswordModalRef}
+        onConfirm={onEnable}
+      />
     </div>
   );
 }

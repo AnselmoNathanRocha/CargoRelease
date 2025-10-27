@@ -36,7 +36,7 @@ export function useConfirmWithPasswordModal<T>({ ref, onConfirm }: Props<T>) {
     },
   }));
 
-  const { mutate: validatePassword, error, isPending } = useMutation({
+  const { mutate: validatePassword, isPending } = useMutation({
     mutationFn: (password: string) => authService.validateAdminPassword(password),
     onSuccess: (isValid) => {
       if (!isValid) {
@@ -48,7 +48,6 @@ export function useConfirmWithPasswordModal<T>({ ref, onConfirm }: Props<T>) {
       onCancel();
     },
     onError: (error) => {
-      console.log("Error: ", error);
       toastService.error(
         extractMessageFromAxiosErrorOrDefault(
           error,
@@ -65,7 +64,6 @@ export function useConfirmWithPasswordModal<T>({ ref, onConfirm }: Props<T>) {
   
   return {
     isOpen,
-    error: error?.response?.data?.message,
     isValidating: isPending,
     form,
     onSubmit: (data: ConfirmPasswordData) => validatePassword(data.password),

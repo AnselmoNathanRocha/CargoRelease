@@ -38,6 +38,10 @@ class AuthService {
       newPassword: payload.newPassword,
     } as RecoverPasswordPayload);
   }
+
+  async generateRecoveryCode(): Promise<void> {
+    return await httpClient.post("/auth/generate-recovery-code");
+  }
 }
 
 export const authService = new AuthService();

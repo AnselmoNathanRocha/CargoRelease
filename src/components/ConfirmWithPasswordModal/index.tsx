@@ -10,7 +10,7 @@ interface Props<T> {
 }
 
 export function ConfirmWithPasswordModal<T>({ ref, onConfirm }: Props<T>) {
-  const { isOpen, error, form, onSubmit, onCancel, isValidating } =
+  const { isOpen, form, onSubmit, onCancel, isValidating } =
     useConfirmWithPasswordModal<T>({ ref, onConfirm });
 
   return (
@@ -37,10 +37,9 @@ export function ConfirmWithPasswordModal<T>({ ref, onConfirm }: Props<T>) {
           <Form.InputPass
             name="password"
             placeholder="Digite a senha"
-            autoComplete="one-time-code"
+            autoComplete="off"
             autoFocus
           />
-          {error && <p className="text-red-400">{error}</p>}
         </Form.Field>
       </Form.Root>
     </Modal>

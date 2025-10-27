@@ -1,14 +1,16 @@
-import { PasswordLastUpdatedAt } from "@/models/password-last-updated-at";
+import { Settings } from "@/models/settings";
 import { RecoveryEmailData } from "@/models/recovery-email";
 import { httpClient } from "./http-client";
 
-const getPasswordLastUpdatedAt = () =>
-  httpClient.get<PasswordLastUpdatedAt>("/settings/password-last-updated-at");
+class SettingsService {
+  async getSettings(): Promise<Settings> {
+    const { data } = await httpClient.get("/settings");
+    return data;
+  }
 
-const updateRecoveryEmail = (data: RecoveryEmailData) =>
-  httpClient.put("/settings/recovery-email", data);
+  async updateRecoveryEmail (data: RecoveryEmailData) {
+    await httpClient.put("/settings/recovery-email", data);
+  }
+}
 
-export const settingsService = {
-  getPasswordLastUpdatedAt,
-  updateRecoveryEmail,
-};
+export const settingsService = new SettingsService();

@@ -3,7 +3,7 @@ import { queryClient } from "@/lib/react-query";
 import { CreateResponsibleData, createResponsibleSchema } from "@/models/responsible";
 import { responsibleService } from "@/services/responsible-service";
 import { toastService } from "@/services/toast-service";
-import { UNLOCK_DURATION } from "@/utils/constants";
+import { EXPIRATE_IN_MINUTES, UNLOCK_DURATION } from "@/utils/constants";
 import { extractMessageFromAxiosErrorOrDefault } from "@/utils/functions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -86,7 +86,7 @@ export function useResponsiblePage() {
 
   const onUnlockConfirm = () => {
     setIsUnlocked(true);
-    toastService.success("Edição desbloqueada por 5 minutos");
+    toastService.success(`Edição desbloqueada por ${EXPIRATE_IN_MINUTES} minutos`);
   };
 
   const handleCreate = () => {

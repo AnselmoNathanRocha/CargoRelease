@@ -6,6 +6,7 @@ import { ResponsibleItem } from "../../components/ResponsibleItem";
 import { useResponsiblePage } from "./use-responsible-page";
 import { Responsible as ResponsibleType } from "@/models/responsible";
 import { ConfirmWithPasswordModal } from "@/components/ConfirmWithPasswordModal";
+import { EXPIRATE_IN_MINUTES } from "@/utils/constants";
 
 export function Responsible() {
   const { 
@@ -30,7 +31,6 @@ export function Responsible() {
       description="Cadastre e gerencie os responsáveis pelos registros"
     >
       <div className="space-y-6">
-        {/* Botão de Lock/Unlock */}
         <div className="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-4">
           <div className="flex items-center gap-3">
             {isUnlocked ? (
@@ -44,7 +44,7 @@ export function Responsible() {
               </p>
               <p className="text-xs text-gray-600">
                 {isUnlocked 
-                  ? "Você pode adicionar e remover responsáveis (expira em 5 min)" 
+                  ? `Você pode adicionar e remover responsáveis (expira em ${EXPIRATE_IN_MINUTES} min)` 
                   : "Desbloqueie para editar responsáveis"}
               </p>
             </div>
@@ -72,7 +72,6 @@ export function Responsible() {
           )}
         </div>
 
-        {/* Formulário de Criação */}
         <Form.Root 
           form={form} 
           onSubmit={form.handleSubmit(handleCreate)}
@@ -97,7 +96,6 @@ export function Responsible() {
           </div>
         </Form.Root>
 
-        {/* Lista de Responsáveis */}
         {responsibles.length > 0 ? (
           <div className="space-y-2">
             <p className="text-sm font-medium text-gray-700 mb-3">

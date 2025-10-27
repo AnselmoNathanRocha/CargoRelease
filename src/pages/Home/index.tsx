@@ -46,7 +46,7 @@ export function Home() {
       label: "Viscosidade",
       property: "viscosity",
       customElement({ viscosity }) {
-        return viscosity ?? "--"
+        return Number(viscosity) !== 0 ? viscosity : "--"
       },
     },
     { label: "PH", property: "hydrogenPotential" },
@@ -66,7 +66,7 @@ export function Home() {
       label: "Observações", 
       property: "notes",
       customElement({ notes }) {
-        return notes ?? "--"
+        return notes?.trim() !== "" ? notes : "--"
       },
     },
     {
@@ -92,7 +92,7 @@ export function Home() {
       ),
     },
   ];
-
+  
   return (
     <div>
       <HeaderPage 

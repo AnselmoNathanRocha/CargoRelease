@@ -107,8 +107,9 @@ export function RegisterModal ({ ref }: Props) {
 						<Form.Field>
 							<Form.Label htmlFor="viscosity">Viscosidade</Form.Label>
 							<Form.Input
-								type="number"
 								name="viscosity"
+								inputMode="decimal"
+								mask="onlyNumbersAndComma"
 								placeholder="Digite o valor da viscosidade"
 							/>
               <Form.ErrorMessage field="viscosity" />

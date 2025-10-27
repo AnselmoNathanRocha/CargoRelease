@@ -4,7 +4,7 @@ import React from "react";
 import { LucideIcon, LucideIconName } from "./LucideIcon";
 
 const buttonVariants = cva(
-  "relative flex items-center justify-center rounded-md font-semibold transition-colors cursor-pointer disabled:opacity-80 disabled:cursor-wait outline-none ring-offset-2",
+  "relative flex items-center justify-center rounded-md font-semibold transition-colors cursor-pointer disabled:bg-gray-350 disabled:opacity-80 disabled:cursor-no-drop outline-none ring-offset-2",
   {
     variants: {
       variant: {
@@ -36,17 +36,18 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof buttonVariants> & {
     children: React.ReactNode;
     isLoading?: boolean;
+    disabled?: boolean;
     leftIcon?: LucideIconName;
   };
 
-export function Button({ variant, size, className, children, isLoading, leftIcon, ...props }: ButtonProps) {
+export function Button({ variant, size, className, children, isLoading, disabled, leftIcon, ...props }: ButtonProps) {
   return (
     <button
       className={cn(
         buttonVariants({ variant, size }),
         className
       )}
-      disabled={isLoading}
+      disabled={isLoading ?? disabled}
       {...props}
     >
       {isLoading && <LucideIcon name="loader2" size={20} className="animate-spin absolute" />}

@@ -4,6 +4,7 @@ export const recoverPasswordSchema = z
   .object({
     securityCode: z
       .string()
+      .trim()
       .min(6, "Código inválido"),
     newPassword: z
       .string()

@@ -10,7 +10,7 @@ export interface Register {
   opNumber: number;
   batch: string;
   coa: boolean;
-  viscosity: number | null;
+  viscosity: string | null;
   hydrogenPotential: number;
   density: number;
   active: string | null;
@@ -26,12 +26,12 @@ export const registerSchema = z.object({
   productDescription: z.string().nonempty({ message: "Campo obrigatório" }),
   productCode: z.string().nonempty({ message: "Campo obrigatório" }),
   opNumber: z
-      .number({ error: "Digite o número da OP" })
+    .number({ error: "Digite o número da OP" })
     .int()
     .refine((val) => val.toString().length == 5, { message: "OP precisa ter 5 dígitos" }),
   batch: z.string().nonempty({ message: "Campo obrigatório" }),
   viscosity: z
-    .number({ error: "Valor inválido" })
+    .string()
     .nullable()
     .optional(),
   hydrogenPotential: z.number({ error: "Valor inválido" }),
@@ -42,7 +42,7 @@ export const registerSchema = z.object({
     .optional(),
   hours: z.string().nonempty({ message: "Campo obrigatório" }),
   responsibleId: z.string({ error: "Selecione um responsável" }).nonempty({ message: "Campo obrigatório" }),
-  notes: z.string().optional(),
+  notes: z.string().trim().optional(),
 });
 
 export type RegisterData = z.infer<typeof registerSchema>;

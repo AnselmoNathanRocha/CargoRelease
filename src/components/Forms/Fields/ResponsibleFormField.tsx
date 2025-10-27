@@ -37,7 +37,7 @@ export function ResponsibleFormField({
             Nenhum responsável encontrado. Deseja criar?
             <Link
               to="settings/responsible"
-              className="w-20 h-9 flex justify-center items-center gap-1 rounded-md shadow-md text-white bg-blue-700 hover:opacity-90 transition-all"
+              className="w-30 h-9 flex justify-center items-center gap-1 border border-gray-300 rounded-md shadow-md text-white bg-blue-700 hover:opacity-90 transition-all"
             >
               <PlusIcon size={18} />
               Criar

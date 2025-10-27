@@ -52,10 +52,16 @@ export function useRegisterModal ({ ref }: Props) {
   const isUpdate = !!registerToEdit.current;
 
 	const { mutate, isPending: isLoading } = useMutation({
-    mutationFn: (data: RegisterData) =>
+    mutationFn: async (data: RegisterData) => {
+      const dataTransform: RegisterData = {
+        ...data,
+        viscosity: data.viscosity === "" ? null : String(Number(data.viscosity)),
+      };  
+      
       isUpdate
-        ? registerService.update(registerToEdit.current!.id, data)
-        : registerService.create(data),
+        ? await registerService.update(registerToEdit.current!.id, dataTransform)
+        : await registerService.create(dataTransform)
+    },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["registers"],

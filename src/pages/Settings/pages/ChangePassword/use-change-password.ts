@@ -1,3 +1,4 @@
+import { queryClient } from "@/lib/react-query";
 import { ChangePasswordData, changePasswordSchema } from "@/models/change-password";
 import { authService } from "@/services/auth-service";
 import { settingsService } from "@/services/settings-service";
@@ -13,14 +14,17 @@ export function useChangePassword () {
     resolver: zodResolver(changePasswordSchema),
   });
 
-  const { data: lastUpdatedAt } = useQuery({
+  const { data: settings } = useQuery({
     queryKey: ["password-last-updated-at"],
-    queryFn: () => settingsService.getPasswordLastUpdatedAt(),
+    queryFn: () => settingsService.getSettings(),
   });
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: ChangePasswordData) => authService.changePassword(data),
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["password-last-updated-at"],
+      });
       form.reset();
       toastService.success("Senha alterada com sucesso!");
     },
@@ -34,15 +38,12 @@ export function useChangePassword () {
     },
   });
   
-  const rawLastUpdatedAt =
-    (lastUpdatedAt as any)?.lastUpdatedAt ?? (lastUpdatedAt as any)?.data?.lastUpdatedAt;
-
   return {
     form,
     onSubmit: (data: ChangePasswordData) => mutate(data),
     isLoading: isPending,
-    lastUpdatedAt: rawLastUpdatedAt
-      ? dayjs(rawLastUpdatedAt).format("DD/MM/YYYY [às] HH:mm")
-      : undefined
+    lastUpdatedAt: settings
+      ? dayjs(settings.passwordLastUpdatedAt).format("DD/MM/YYYY [às] HH:mm")
+      : undefined,
   }
 }
